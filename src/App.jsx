@@ -1,6 +1,7 @@
 import Player from "./Player";
+import GameBoard from "./GameBoard";
 
-function App() {
+export default function App() {
   return (
     <main>
       <div id="game-container">
@@ -8,11 +9,9 @@ function App() {
           <Player initialName="Player 1" symbol="X" />
           <Player initialName="Player 2" symbol="O" />
         </ol>
-        GAMe BOARD
+        <GameBoard />
       </div>
       LOG
     </main>
   );
 }
-
-export default App;
