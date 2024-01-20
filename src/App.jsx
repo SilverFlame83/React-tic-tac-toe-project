@@ -14,10 +14,18 @@ export default function App() {
     <main>
       <div id="game-container">
         <ol id="players" className="highlight-player">
-          <Player initialName="Player 1" symbol="X" />
-          <Player initialName="Player 2" symbol="O" />
+          <Player
+            initialName="Player 1"
+            symbol="X"
+            isActive={activePlayer === "X"}
+          />
+          <Player
+            initialName="Player 2"
+            symbol="O"
+            isActive={activePlayer === "X"}
+          />
         </ol>
-        <GameBoard onSelectSquare={handleActivePlayer}/>
+        <GameBoard onSelectSquare={handleActivePlayer} />
       </div>
       LOG
     </main>
