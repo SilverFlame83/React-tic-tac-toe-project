@@ -7,7 +7,7 @@ export default function App() {
   const [activePlayer, setActivePlayer] = useState("X");
 
   function handleActivePlayer() {
-    setActivePlayer((currentPlayer) => (currentPlayer === "X" ? "X" : "O"));
+    setActivePlayer((currentPlayer) => (currentPlayer === "X" ? "O" : "X"));
   }
 
   return (
@@ -22,10 +22,13 @@ export default function App() {
           <Player
             initialName="Player 2"
             symbol="O"
-            isActive={activePlayer === "X"}
+            isActive={activePlayer === "O"}
           />
         </ol>
-        <GameBoard onSelectSquare={handleActivePlayer} />
+        <GameBoard
+          onSelectSquare={handleActivePlayer}
+          activePlayerSymbol={activePlayer}
+        />
       </div>
       LOG
     </main>
