@@ -43,7 +43,7 @@ export default function App() {
         </ol>
         <GameBoard
           onSelectSquare={handleActivePlayer}
-          activePlayerSymbol={activePlayer}
+         turns = {gameTurns}
         />
       </div>
       <Log />
