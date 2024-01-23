@@ -20,6 +20,30 @@ const initialBoard = [
   [null, null, null],
   [null, null, null],
 ];
+
+function deriveWinner(getBoard, players){
+  let winner;
+
+  for (const combination of WINNING_COMBINATIONS) {
+    const firstSquareSymbol =
+      getBoard[combination[0].row][combination[0].column];
+    const secondSquareSymbol =
+      getBoard[combination[1].row][combination[1].column];
+    const thirdSquareSymbol =
+      getBoard[combination[2].row][combination[2].column];
+
+    if (
+      firstSquareSymbol &&
+      firstSquareSymbol === secondSquareSymbol &&
+      firstSquareSymbol === thirdSquareSymbol
+    ) {
+      winner = players[firstSquareSymbol];
+    }
+  }
+
+  return winner;
+}
+
 export default function App() {
   const [players, setPlayers] = useState({
     X: "Player 1",
@@ -40,24 +64,7 @@ export default function App() {
     getBoard[row][col] = player;
   }
 
-  let winner;
-
-  for (const combination of WINNING_COMBINATIONS) {
-    const firstSquareSymbol =
-      getBoard[combination[0].row][combination[0].column];
-    const secondSquareSymbol =
-      getBoard[combination[1].row][combination[1].column];
-    const thirdSquareSymbol =
-      getBoard[combination[2].row][combination[2].column];
-
-    if (
-      firstSquareSymbol &&
-      firstSquareSymbol === secondSquareSymbol &&
-      firstSquareSymbol === thirdSquareSymbol
-    ) {
-      winner = players[firstSquareSymbol];
-    }
-  }
+  const winner = deriveWinner(GameBoard,players)
 
   const hasDraw = gameTurns.length === 9 && !winner;
   function handleActivePlayer(rowIndex, colIndex) {
