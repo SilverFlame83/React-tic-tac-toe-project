@@ -5,28 +5,62 @@ import GameBoard from "./GameBoard";
 import Log from "./Log";
 import { WINNING_COMBINATIONS } from "./winning-combinations";
 
-function deriveActivePlayer(gameTurns){
+function deriveActivePlayer(gameTurns) {
   let currentPlayer = "X";
 
-  if (gameTurns.length >0 && gameTurns[0].player === "X") {
+  if (gameTurns.length > 0 && gameTurns[0].player === "X") {
     currentPlayer = "O";
   }
 
   return currentPlayer;
 }
+const initialBoard = [
+  [null, null, null],
+  [null, null, null],
+  [null, null, null],
+];
 export default function App() {
-  //const [activePlayer, setActivePlayer] = useState("X");
   const [gameTurns, setGameTurns] = useState([]);
+  //const [haswinner, setHasWinner] = useState(false);
+  //const [activePlayer, setActivePlayer] = useState("X");
 
-  const activePlayer = deriveActivePlayer(gameTurns)
+  const activePlayer = deriveActivePlayer(gameTurns);
+
+  let getBoard = initialBoard;
+
+  for (const turn of gameTurns) {
+    const { square, player } = turn;
+    const { row, col } = square;
+
+    getBoard[row][col] = player;
+  }
+
+  let winner;
+
+  for (const combination of WINNING_COMBINATIONS) {
+    const firstSquareSymbol =
+      getBoard[combination[0].row][combination[0].column];
+    const secondSquareSymbol =
+      getBoard[combination[1].row][combination[1].column];
+    const thirdSquareSymbol =
+      getBoard[combination[2].row][combination[2].column];
+
+    if (
+      firstSquareSymbol &&
+      firstSquareSymbol === secondSquareSymbol &&
+      firstSquareSymbol === thirdSquareSymbol
+    ) {
+      winner = firstSquareSymbol;
+    }
+  }
 
   function handleActivePlayer(rowIndex, colIndex) {
     //setActivePlayer((currentPlayer) => (currentPlayer === "X" ? "O" : "X"));
     setGameTurns((prevTurns) => {
-     const currentPlayer = deriveActivePlayer(prevTurns)
+      const currentPlayer = deriveActivePlayer(prevTurns);
 
       const updatedTurns = [
-        { square: { row: rowIndex, col: colIndex }, player: currentPlayer},
+        { square: { row: rowIndex, col: colIndex }, player: currentPlayer },
         ...prevTurns,
       ];
 
@@ -49,10 +83,8 @@ export default function App() {
             isActive={activePlayer === "O"}
           />
         </ol>
-        <GameBoard
-          onSelectSquare={handleActivePlayer}
-         turns = {gameTurns}
-        />
+        {winner && <p> You won, {winner}!</p>}
+        <GameBoard onSelectSquare={handleActivePlayer} board={getBoard} />
       </div>
       <Log turns={gameTurns} />
     </main>
